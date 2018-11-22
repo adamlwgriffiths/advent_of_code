@@ -26,11 +26,9 @@
 
 (define (part-2)
   (let* ([divide-pair (lambda (p) (apply / (sort p >)))]
-         [row-combinations (lambda (row) (combinations row 2))]
-         [row-pairs (lambda (row) (map divide-pair (row-combinations row)))]
+         [row-pairs (lambda (row) (map divide-pair (combinations row 2)))]
          [row-value (lambda (row) (first (filter integer? (row-pairs row))))])
     (checksum-sheet row-value + spreadsheet)))
-
 
 (part-1)
 ; 41919
