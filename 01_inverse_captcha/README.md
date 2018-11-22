@@ -1,4 +1,4 @@
-# 01 Captcha
+# 01 Inverse Captcha
 
 Solves [Advent of Code 2017 #1](https://adventofcode.com/2017/day/1)
 
