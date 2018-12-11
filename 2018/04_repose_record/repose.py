@@ -2,11 +2,10 @@ from __future__ import print_function
 from functools import partial
 import re
 import numpy as np
-from dateutil.parser import *
 
 def parse_entry(s):
-    m = re.match(r'\[(?P<time>[^\]]+)\] (?P<event>.*)', s, flags=re.I)
-    return parse(m.group('time')), m.group('event').lower()
+    m = re.match(r'.*:(?P<minutes>\d+)\] (?P<event>.*)', s, flags=re.I)
+    return int(m.group('minutes')), m.group('event').lower()
 
 class Guard(object):
     def __init__(self, id):
@@ -61,34 +60,33 @@ class WakesState(object):
         end = entry[0]
         return fn(end)
 
+def apply_sleep(data, id, start, end):
+    data[id] = data.get(id) or Guard(id)
+    data[id].apply_sleep(start, end)
+    return partial(apply_sleep, data, id)
+
 states = [
     (GuardState.can_process, GuardState.process),
     (SleepsState.can_process, SleepsState.process),
     (WakesState.can_process, WakesState.process),
 ]
 
-def run_state(data, fn, event):
-    for entry, state in states:
-        if entry(event):
-            return state(data, fn, event)
-
-def apply_sleep(data, id, start, end):
-    data[id] = data.get(id) or Guard(id)
-    data[id].apply_sleep(start, end)
-    return partial(apply_sleep, data, id)
-
-def process_guards():
-    # parse events
-    # keep minutes
-    events = list(map(parse_entry, sorted(input)))
-    events = list(map(lambda event: (event[0].minute, event[1]), events))
-
+def run_state_machine(events):
     # run a hilarious state machine that slowly builds up a partial function
     # because reasons
+    def run_state(data, fn, event):
+        for entry, state in states:
+            if entry(event):
+                return state(data, fn, event)
     fn = None
     data = {}
     for event in events:
         fn = run_state(data, fn, event)
+    return data
+
+def process_guards():
+    events = list(map(parse_entry, sorted(input)))
+    data = run_state_machine(events)
     return data
 
 def step_one(input):
