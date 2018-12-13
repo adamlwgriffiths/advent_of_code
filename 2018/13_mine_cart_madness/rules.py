@@ -10,10 +10,10 @@ Rule = namedtuple('Rule', 'match result')
 # next right:       []`.
 
 cart_states = {
-    '^': '^*`',
-    '>': '>}]',
-    'v': 'v,.',
-    '<': '<{[',
+    '^': "^`'",
+    '>': ">}]",
+    'v': "v,.",
+    '<': "<{[",
 }
 
 def all_cart_symbols():
