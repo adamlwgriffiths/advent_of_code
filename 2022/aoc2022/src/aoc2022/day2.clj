@@ -105,7 +105,7 @@
          (reduce +))))
 
 (defn day2-2 []
-  ; A X -> (:rock :rock nil)
+  ; A X -> (:rock nil :lose)
   (let [parse-match (fn [match]
                       (let [[a b]      (string/split match #" ")
                             their-move ({"A" :rock "B" :paper "C" :scissors} a)
