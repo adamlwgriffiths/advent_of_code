@@ -7,5 +7,7 @@
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all
                        :jvm-opts ["-Dclojure.compiler.direct-linking=true"]}
-             :day1 {:main ^:skip-aot aoc2022.day1}}
-  :aliases {"day1" ["with-profile" "day1" "run"]})
+             :day1 {:main ^:skip-aot aoc2022.day1}
+             :day2 {:main ^:skip-aot aoc2022.day2}}
+  :aliases {"day1" ["with-profile" "day1" "run"]
+            "day2" ["with-profile" "day2" "run"]})
