@@ -14,6 +14,12 @@ Run tests
 
 ```
 lein test
+
+# run tests from day 1
+lein test :only aoc2022.day1-test
+
+# run a single test from day5
+lein test :only aoc2022.day5-test/day5-functions
 ```
 
 ## Where are things?
